@@ -739,6 +739,8 @@ class WaveVStack(Waveform):
         wav.start = self.start
         wav.stop = self.stop
         wav.sample_rate = self.sample_rate
+        wav.filters = self.filters
+        wav.label = self.label
         return wav
 
     @staticmethod
@@ -757,6 +759,8 @@ class WaveVStack(Waveform):
         ret.stop = self.stop
         ret.shift = self.shift + time
         ret.offset = self.offset
+        ret.filters = self.filters
+        ret.label = self.label
         return ret
 
     def __add__(self, other) -> WaveVStack:
@@ -775,6 +779,8 @@ class WaveVStack(Waveform):
         else:
             # ret.wlist.append(((+inf, ), (_const(1.0 * other), )))
             ret.offset += other
+        ret.filters = self.filters
+        ret.label = self.label
         return ret
 
     def __radd__(self, v) -> WaveVStack:
@@ -787,10 +793,14 @@ class WaveVStack(Waveform):
             if self.offset != 0:
                 w = other * self.offset
                 ret.wlist.append((w.bounds, w.seq))
+            ret.filters = self.filters
+            ret.label = self.label
             return ret
         else:
             ret = WaveVStack([Waveform(*w) * other for w in self.wlist])
             ret.offset = self.offset * other
+            ret.filters = self.filters
+            ret.label = self.label
             return ret
 
     def __rmul__(self, v) -> WaveVStack:
