@@ -139,3 +139,6 @@ dmypy.json
 waveforms/WaveformLexer.py
 waveforms/WaveformParser.py
 waveforms/WaveformListener.py
+
+# 本机工具配置 (不进版本库)
+.claude/
